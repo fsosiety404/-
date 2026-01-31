@@ -1,0 +1,6 @@
+# библиотеки которые нужно установить
+pip install dotenv
+pip install datetime
+pip install flask
+pip install psycopg2-binary
+pip install cryptography
