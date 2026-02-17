@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Настройки аккаунта</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            color: #e2e8f0;
+        }
+        
+        .settings-container {
+            background: #1e293b;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+            width: 100%;
+            max-width: 900px;
+            overflow: hidden;
+            display: flex;
+            min-height: 600px;
+            border: 1px solid #334155;
+        }
+        
+        .sidebar {
+            width: 250px;
+            background: linear-gradient(180deg, #3730a3 0%, #312e81 100%);
+            color: white;
+            padding: 30px 20px;
+            border-right: 1px solid #4f46e5;
+        }
+        
+        .sidebar h2 {
+            margin-bottom: 30px;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #f1f5f9;
+        }
+        
+        .nav-menu {
+            list-style: none;
+        }
+        
+        .nav-item {
+            padding: 12px 15px;
+            margin: 8px 0;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #e2e8f0;
+        }
+        
+        .nav-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .nav-item.active {
+            background: rgba(255, 255, 255, 0.15);
+            font-weight: 600;
+            color: white;
+        }
+        
+        .content {
+            flex: 1;
+            padding: 40px;
+            overflow-y: auto;
+        }
+        
+        .section {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .section.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .section h1 {
+            color: #f1f5f9;
+            margin-bottom: 25px;
+            font-size: 2rem;
+            border-bottom: 3px solid #4f46e5;
+            padding-bottom: 10px;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #cbd5e1;
+            font-weight: 500;
+        }
+        
+        input, select, textarea {
+            width: 100%;
+            padding: 14px;
+            background: #0f172a;
+            border: 2px solid #334155;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s;
+            color: #e2e8f0;
+        }
+        
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #4f46e5;
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
+        }
+        
+        input[readonly] {
+            background: #1e293b;
+            color: #94a3b8;
+            border-color: #475569;
+        }
+        
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 15px 0;
+        }
+        
+        .checkbox-group input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            accent-color: #4f46e5;
+        }
+        
+        .checkbox-group label {
+            margin-bottom: 0;
+            color: #cbd5e1;
+        }
+        
+        .btn {
+            padding: 14px 28px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(90deg, #4f46e5, #7c3aed);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(79, 70, 229, 0.4);
+        }
+        
+        .btn-secondary {
+            background: #334155;
+            color: #e2e8f0;
+            border: 2px solid #475569;
+        }
+        
+        .btn-secondary:hover {
+            background: #475569;
+        }
+        
+        .btn-danger {
+            background: linear-gradient(90deg, #dc2626, #ef4444);
+            color: white;
+        }
+        
+        .btn-danger:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(220, 38, 38, 0.4);
+        }
+        
+        .danger-zone {
+            background: #1f1b1b;
+            border: 2px solid #7f1d1d;
+            border-radius: 15px;
+            padding: 25px;
+            margin-top: 40px;
+        }
+        
+        .danger-zone h3 {
+            color: #f87171;
+            margin-bottom: 15px;
+        }
+        
+        .danger-zone p {
+            color: #cbd5e1;
+        }
+        
+        .info-box {
+            background: #0c4a6e;
+            border: 2px solid #0369a1;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .info-box h4 {
+            color: #7dd3fc;
+            margin-bottom: 10px;
+        }
+        
+        .info-box p {
+            color: #e0f2fe;
+        }
+        
+        .back-to-main {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #818cf8;
+            text-decoration: none;
+            font-weight: 600;
+            margin-bottom: 20px;
+            padding: 10px 15px;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+        
+        .back-to-main:hover {
+            background: #334155;
+            padding: 10px 20px;
+        }
+        
+        small {
+            color: #94a3b8;
+            display: block;
+            margin-top: 5px;
+        }
+        
+        .messages {
+            margin-bottom: 20px;
+        }
+        
+        .alert {
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            border: 2px solid;
+        }
+        
+        .alert-success {
+            background-color: #064e3b;
+            border-color: #10b981;
+            color: #a7f3d0;
+        }
+        
+        .alert-error {
+            background-color: #7f1d1d;
+            border-color: #ef4444;
+            color: #fecaca;
+        }
+        
+        .alert-warning {
+            background-color: #78350f;
+            border-color: #f59e0b;
+            color: #fde68a;
+        }
+        
+        .errorlist {
+            color: #f87171;
+            margin-top: 5px;
+            padding-left: 20px;
+        }
+        
+        .errorlist li {
+            margin-bottom: 5px;
+        }
+        
+        @media (max-width: 768px) {
+            .settings-container {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+                padding: 20px;
+            }
+            
+            .nav-menu {
+                display: flex;
+                overflow-x: auto;
+                gap: 10px;
+            }
+            
+            .nav-item {
+                white-space: nowrap;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="settings-container">
+        <!-- Боковое меню -->
+        <div class="sidebar">
+            <h2><i class="fas fa-cog"></i> Настройки</h2>
+            <ul class="nav-menu">
+                <li class="nav-item active" onclick="showSection('profile')">
+                    <i class="fas fa-user"></i> Профиль
+                </li>
+                <li class="nav-item" onclick="showSection('security')">
+                    <i class="fas fa-shield-alt"></i> Безопасность
+                </li>
+            </ul>
+            
+            <div style="margin-top: 40px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1);">
+                <a href="/" class="nav-item">
+                    <i class="fas fa-arrow-left"></i> На главную
+                </a>
+            </div>
+        </div>
+        
+        <!-- Основной контент -->
+        <div class="content">
+            <a href="/" class="back-to-main">
+                <i class="fas fa-arrow-left"></i> Вернуться на главную
+            </a>
+            
+            <!-- Сообщения Django -->
+            {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">
+                    {{ message }}
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+            
+            <!-- Секция профиля -->
+            <form id="profile-section" class="section active" method="POST" action="/update_profile/">
+                {% csrf_token %}
+                <h1><i class="fas fa-user-edit"></i> Редактирование профиля</h1>
+                
+                <div class="form-group">
+                    <label for="username"><i class="fas fa-user-tag"></i> Имя пользователя</label>
+                    <input type="text" id="username" name="username" value="{{ username }}" readonly>
+                    <small>Имя пользователя нельзя изменить</small>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email"><i class="fas fa-envelope"></i> Email адрес</label>
+                    <input type="email" id="email" name="email" placeholder="Введите новый email" value="{{ email|default:'' }}">
+                </div>
+                
+                <div class="form-group">
+                    <label for="bio"><i class="fas fa-file-alt"></i> О себе</label>
+                    <textarea id="bio" name="bio" rows="3" placeholder="Расскажите о себе">{{ bio|default:'' }}</textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="location"><i class="fas fa-map-marker-alt"></i> Местоположение</label>
+                    <input type="text" id="location" name="location" placeholder="Город, страна" value="{{ location|default:'' }}">
+                </div>
+                
+                <div class="form-group">
+                    <label for="website"><i class="fas fa-link"></i> Веб-сайт</label>
+                    <input type="url" id="website" name="website" placeholder="https://example.com" value="{{ website|default:'' }}">
+                </div>
+                
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-save"></i> Сохранить изменения
+                </button>
+            </form>
+            
+            <!-- Секция безопасности -->
+            <form id="security-section" class="section" method="POST" action="/change_password/">
+                {% csrf_token %}
+                <h1><i class="fas fa-shield-alt"></i> Безопасность аккаунта</h1>
+                
+                <div class="info-box">
+                    <h4><i class="fas fa-info-circle"></i> Статус безопасности</h4>
+                    <p>Ваш аккаунт защищён с помощью PBKDF2 хэширования и сессий.</p>
+                    <p>Последнее обновление пароля: {{ last_password_change|default:'Никогда' }}</p>
+                </div>
+                
+                <div class="form-group">new_password
+                    <label for="current_password"><i class="fas fa-key"></i> Текущий пароль</label>
+                    <input type="password" id="current_password" name="current_password" placeholder="Введите текущий пароль" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="new_password"><i class="fas fa-lock"></i> Новый пароль</label>
+                    <input type="password" id="new_password" name="new_password" placeholder="Введите новый пароль" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="confirm_password"><i class="fas fa-lock"></i> Подтвердите пароль</label>
+                    <input type="password" id="confirm_password" name="confirm_password" placeholder="Повторите новый пароль" required>
+                </div>
+                
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-sync-alt"></i> Сменить пароль
+                </button>
+                
+                <div class="danger-zone">
+                    <h3><i class="fas fa-exclamation-triangle"></i> Опасная зона</h3>
+                    <p>Эти действия нельзя отменить. Будьте осторожны.</p>
+                    
+                    <div style="margin-top: 20px;">
+                        <button type="button" class="btn btn-danger" onclick="showDeleteConfirm()">
+                            <i class="fas fa-trash-alt"></i> Удалить аккаунт
+                        </button>
+                        <small>Все ваши данные будут безвозвратно удалены</small>
+                    </div>
+                </div>
+            </form>
+            
+            <!-- Форма для удаления аккаунта -->
+            <form id="deleteAccountForm" method="POST" action="/delete_account/" style="display: none;">
+                {% csrf_token %}
+                <input type="hidden" name="confirm" value="1">
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function showSection(sectionId) {
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            
+            event.target.closest('.nav-item').classList.add('active');
+            
+            document.querySelectorAll('.section').forEach(section => {
+                section.style.display = 'none';
+                section.classList.remove('active');
+            });
+            
+            const targetSection = document.getElementById(sectionId + '-section');
+            if (targetSection) {
+                targetSection.style.display = 'block';
+                setTimeout(() => {
+                    targetSection.classList.add('active');
+                }, 10);
+            }
+        }
+        
+        function showDeleteConfirm() {
+            if (confirm('Вы уверены, что хотите удалить аккаунт?\nЭто действие нельзя отменить!')) {
+                document.getElementById('deleteAccountForm').submit();
+            }
+        }
+    </script>
+</body>
+</html>

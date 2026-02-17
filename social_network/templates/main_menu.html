@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Главная | Quantum Messenger</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-primary: #0f0f23;
+            --bg-secondary: #1a1a2e;
+            --accent-blue: #7289da;
+            --accent-green: #43b581;
+            --accent-red: #e74c3c;
+            --text-primary: #ffffff;
+            --text-secondary: #b9bbbe;
+            --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        body {
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .card {
+            background: var(--bg-secondary);
+            border-radius: 20px;
+            padding: 50px;
+            box-shadow: var(--card-shadow);
+            text-align: center;
+            border: 1px solid rgba(114, 137, 218, 0.2);
+        }
+
+        .success-icon {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-green));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 30px;
+            font-size: 3rem;
+        }
+
+        h1 {
+            font-size: 2.8rem;
+            margin-bottom: 20px;
+            background: linear-gradient(90deg, var(--accent-blue), var(--accent-green));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .welcome-message {
+            font-size: 1.8rem;
+            margin: 30px 0;
+        }
+
+        .username {
+            color: var(--accent-blue);
+            font-weight: 800;
+            font-size: 2.2rem;
+            text-shadow: 0 0 10px rgba(114, 137, 218, 0.5);
+            display: block;
+            margin: 10px 0 30px;
+        }
+
+        .message {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 40px;
+        }
+
+        .action-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            margin-top: 40px;
+        }
+
+        .btn {
+            padding: 18px 35px;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .btn-settings {
+            background: var(--accent-blue);
+            color: white;
+        }
+
+        .btn-settings:hover {
+            background: #677bc4;
+            transform: translateY(-3px);
+        }
+
+        .btn-logout {
+            background: rgba(231, 76, 60, 0.1);
+            color: var(--accent-red);
+            border: 1px solid rgba(231, 76, 60, 0.3);
+        }
+
+        .btn-logout:hover {
+            background: rgba(231, 76, 60, 0.2);
+            transform: translateY(-3px);
+        }
+
+        footer {
+            margin-top: 50px;
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        @media (max-width: 768px) {
+            .card {
+                padding: 30px 20px;
+            }
+            
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            .username {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <div class="success-icon">
+                <i class="fas fa-user"></i>
+            </div>
+            
+            <h1>Главная</h1>
+            
+            <div class="welcome-message">
+                Добро пожаловать,
+                <span class="username">
+                    {% if username %}
+                        {{ username }}
+                    {% else %}
+                        Пользователь
+                    {% endif %}
+                </span>!
+            </div>
+            
+            <p class="message">
+                Вы вошли в Quantum Messenger. 
+                Используйте меню ниже для управления аккаунтом.
+            </p>
+            
+            <div class="action-buttons">
+                <!-- ИСПРАВЛЕНО: Используем URL name вместо прямого пути -->
+                <a href="{% url 'verf_password' %}" class="btn btn-settings">
+                    <i class="fas fa-cog"></i>
+                    Настройки
+                </a>
+                
+                <!-- ИСПРАВЛЕНО: Используем URL name для выхода -->
+                <a href="{% url 'logout_user' %}" class="btn btn-logout">
+                    <i class="fas fa-sign-out-alt"></i>
+                    Выйти из аккаунта
+                </a>
+            </div>
+            
+            <footer>
+                <p>© 2026 Quantum Messenger. Все права защищены.</p>
+                <p style="margin-top: 10px; font-size: 0.8rem;">
+                    <i class="fas fa-info-circle"></i>
+                    Вы вошли как: 
+                    <strong>
+                        {% if username %}
+                            {{ username }}
+                        {% else %}
+                            Гость
+                        {% endif %}
+                    </strong>
+                </p>
+            </footer>
+        </div>
+    </div>
+
+    <script>
+        // Анимация появления
+        document.addEventListener('DOMContentLoaded', function() {
+            const card = document.querySelector('.card');
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(30px)';
+            
+            setTimeout(() => {
+                card.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+                card.style.opacity = '1';
+                card.style.transform = 'translateY(0)';
+            }, 300);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Вход | Quantum</title>
+    <style>
+        body {
+            background: #0f0f23;
+            color: white;
+            font-family: 'Segoe UI', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .card {
+            background: #1a1a2e;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            width: 100%;
+            max-width: 400px;
+        }
+        h1 {
+            text-align: center;
+            color: #7289da;
+            margin-bottom: 30px;
+        }
+        input {
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            background: rgba(255,255,255,0.1);
+            border: 2px solid transparent;
+            border-radius: 10px;
+            color: white;
+            font-size: 1rem;
+        }
+        input:focus {
+            outline: none;
+            border-color: #7289da;
+        }
+        button {
+            width: 100%;
+            padding: 16px;
+            background: #7289da;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        .links {
+            text-align: center;
+            margin-top: 20px;
+        }
+        a {
+            color: #7289da;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>Вход в Quantum</h1>
+        
+        <!-- ВАЖНО: action с слешем в конце! -->
+        <form method="POST" action="/login/">
+            {% csrf_token %}
+            
+            <input type="text" 
+                   name="name_login" 
+                   placeholder="Имя пользователя" 
+                   required>
+            
+            <input type="password" 
+                   name="password_login" 
+                   placeholder="Пароль" 
+                   required>
+            
+            <button type="submit">Войти</button>
+        </form>
+        
+        <div class="links">
+            Нет аккаунта? <a href="/">Зарегистрироваться</a>
+        </div>
+    </div>
+</body>
+</html>
